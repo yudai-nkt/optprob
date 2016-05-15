@@ -1,0 +1,108 @@
+%
+% This is a LaTeX package file "optprob.sty."
+% (c) 2016 Yudai NAKATA
+%
+% This package is distributed under the MIT License.
+% See the LICENSE or https://opensource.org/licenses/MIT for details.
+%
+\NeedsTeXFormat{LaTeX2e}
+\def\oppr@pkgname{optprob}
+\def\oppr@pkgversion{v0.1}
+\ProvidesPackage{\oppr@pkgname}[2016/05/16 \oppr@pkgversion\space a LeTeX package optimization problem]
+\RequirePackage{pgfopts}
+\RequirePackage{mathtools}
+\def\oppr@error{\PackageError\oppr@pkgname}
+\def\oppr@warning{\PackageWarning\oppr@pkgname}
+%
+\def\oppr@empty{}
+\def\oppr@subscr#1{%
+    \ifx#1\oppr@empty
+        \expandafter\@gobble
+    \else
+        \expandafter\@firstofone
+    \fi
+    {_{#1}}%
+}
+\DeclareMathOperator*\oppr@operation@op{\oppr@operation}
+\def\oppr@operation@ord#1{\mathord{\oppr@operation@op\oppr@subscr{#1}}}
+% \def\optprobset{\pgfqkeys{/optprob/?}}
+\DeclareMathOperator*\argmax{arg\,max}
+\DeclareMathOperator*\argmin{arg\,min}
+\def\oppr@subjectto{\mathrm{\oppr@subjectto@notation}}
+\pgfkeys{
+    /optprob/env/optimize/.cd,
+    default/.style={
+        space=\quad,
+        nonabbrev
+    },
+    space/.store in=\oppr@space,
+    abbrev/.code={
+        \def\oppr@maximize@notation{max.}
+        \def\oppr@minimize@notation{min.}
+        \def\oppr@subjectto@notation{s.t.}
+    },
+    nonabbrev/.code={
+        \def\oppr@maximize@notation{maximize}
+        \def\oppr@minimize@notation{minimize}
+        \def\oppr@subjectto@notation{subject~to}
+    },
+    operation/.code={
+        \def\oppr@operation{\csname oppr@#1imize@notation\endcsname}
+    }
+}
+%
+\newenvironment{optimize}[2][]{%
+    \pgfkeys{/optprob/env/optimize/.cd, default, #1, operation=#2}%
+    \def\objfunc##1{%
+        \ifx\oppr@objfunc\@undefined
+        \else
+            \oppr@warning{%
+                \string\oppr@objfunc\space is already specified in the current environment%
+            }%
+        \fi
+        \def\oppr@objfunc{##1}%
+    }
+    \def\oppr@variable{}
+    \def\variable##1{%
+        \ifx\oppr@variable\oppr@empty
+        \else
+            \oppr@warning{%
+                \string\oppr@variable\space is already specified in the current environment%
+            }%
+        \fi
+        \def\oppr@variable{##1}%
+    }
+    \def\addconstraint##1{\protected@edef\oppr@constraints{%
+        \ifx\oppr@constraints\@undefined
+            \\
+            & \oppr@subjectto & & ##1%
+        \else
+            \oppr@constraints \\
+            & & & {##1}%
+        \fi
+    }}%
+}{%
+    \begin{alignat}{3}
+        & \oppr@operation@ord{\oppr@variable} & \oppr@space & {\oppr@objfunc}
+        \ifx\oppr@constraints\@undefined
+        \else
+            \oppr@constraints
+        \fi
+    \end{alignat}%
+}
+\AtBeginDocument{%
+    \ifx\maximize\@undefined
+        \newenvironment{maximize}[1][]{%
+            \begin{optimize}[#1]{max}
+        }{%
+            \end{optimize}%
+        }
+    \fi
+    \ifx\minimize\@undefined
+        \newenvironment{minimize}[1][]{%
+            \begin{optimize}[#1]{min}
+        }{%
+            \end{optimize}%
+        }
+    \fi
+}
