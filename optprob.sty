@@ -16,7 +16,7 @@
 %
 \def\oppr@empty{}
 \def\oppr@subscr#1{%
-    \ifx#1\oppr@empty
+    \ifx#1\relax
         \expandafter\@gobble
     \else
         \expandafter\@firstofone
@@ -53,25 +53,8 @@
 %
 \newenvironment{optimize}[2][]{%
     \pgfkeys{/optprob/env/optimize/.cd, default, #1, operation=#2}%
-    \def\objfunc##1{%
-        \ifx\oppr@objfunc\@undefined
-        \else
-            \oppr@warning{%
-                \string\oppr@objfunc\space is already specified in the current environment%
-            }%
-        \fi
-        \def\oppr@objfunc{##1}%
-    }
-    \def\oppr@variable{}
-    \def\variable##1{%
-        \ifx\oppr@variable\oppr@empty
-        \else
-            \oppr@warning{%
-                \string\oppr@variable\space is already specified in the current environment%
-            }%
-        \fi
-        \def\oppr@variable{##1}%
-    }
+    \def\objfunc##1{\newcommand\oppr@objfunc{##1}}
+    \def\variable##1{\newcommand\oppr@variable{##1}}
     \def\addconstraint##1{\protected@edef\oppr@constraints{%
         \ifx\oppr@constraints\@undefined
             \\
@@ -83,7 +66,7 @@
     }}%
 }{%
     \begin{alignat}{3}
-        & \oppr@operation@ord{\oppr@variable} & \oppr@space & {\oppr@objfunc}
+        & \oppr@operation@ord{\csname oppr@variable\endcsname} & \oppr@space & {\oppr@objfunc}
         \ifx\oppr@constraints\@undefined
         \else
             \oppr@constraints
