@@ -29,23 +29,26 @@
 \DeclareMathOperator*\argmax{arg\,max}
 \DeclareMathOperator*\argmin{arg\,min}
 \def\oppr@subjectto{\mathrm{\oppr@subjectto@notation}}
+\newif\ifoppr@abbreviation
+\def\oppr@switch@notation{%
+    \ifoppr@abbreviation
+        \def\oppr@maximize@notation{max.}
+        \def\oppr@minimize@notation{min.}
+        \def\oppr@subjectto@notation{s.t.}
+    \else
+        \def\oppr@maximize@notation{maximize}
+        \def\oppr@minimize@notation{minimize}
+        \def\oppr@subjectto@notation{subject~to}
+    \fi
+}
 \pgfkeys{
     /optprob/env/optimize/.cd,
     default/.style={
         space=\quad,
-        nonabbrev
+        abbrev=false
     },
     space/.store in=\oppr@space,
-    abbrev/.code={
-        \def\oppr@maximize@notation{max.}
-        \def\oppr@minimize@notation{min.}
-        \def\oppr@subjectto@notation{s.t.}
-    },
-    nonabbrev/.code={
-        \def\oppr@maximize@notation{maximize}
-        \def\oppr@minimize@notation{minimize}
-        \def\oppr@subjectto@notation{subject~to}
-    },
+    abbrev/.is if=oppr@abbreviation,
     operation/.code={
         \def\oppr@operation{\csname oppr@#1imize@notation\endcsname}
     }
@@ -53,6 +56,7 @@
 %
 \newenvironment{optimize}[2][]{%
     \pgfkeys{/optprob/env/optimize/.cd, default, #1, operation=#2}%
+    \oppr@switch@notation
     \def\objfunc##1{\newcommand\oppr@objfunc{##1}}
     \def\variable##1{\newcommand\oppr@variable{##1}}
     \def\addconstraint##1{\protected@edef\oppr@constraints{%
