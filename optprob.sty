@@ -70,7 +70,7 @@
     }}%
 }{%
     \begin{alignat}{3}
-        & \oppr@operation@ord{\csname oppr@variable\endcsname} & \oppr@space & {\oppr@objfunc}
+        & \expandafter\oppr@operation@ord\csname oppr@variable\endcsname & \oppr@space & {\oppr@objfunc}
         \ifx\oppr@constraints\@undefined
         \else
             \oppr@constraints
