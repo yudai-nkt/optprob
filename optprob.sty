@@ -44,7 +44,7 @@
 \pgfkeys{
     /optprob/env/optimize/.cd,
     default/.style={
-        space=\quad,
+        space=1em,
         abbrev=false
     },
     space/.store in=\oppr@space,
@@ -70,7 +70,7 @@
     }}%
 }{%
     \begin{alignat}{3}
-        & \expandafter\oppr@operation@ord\csname oppr@variable\endcsname & \oppr@space & {\oppr@objfunc}
+        & \expandafter\oppr@operation@ord\csname oppr@variable\endcsname & \hskip\oppr@space\relax & {\oppr@objfunc}
         \ifx\oppr@constraints\@undefined
         \else
             \oppr@constraints
