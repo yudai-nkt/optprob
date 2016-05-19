@@ -8,7 +8,7 @@
 \NeedsTeXFormat{LaTeX2e}
 \def\oppr@pkgname{optprob}
 \def\oppr@pkgversion{v0.1}
-\ProvidesPackage{\oppr@pkgname}[2016/05/16 \oppr@pkgversion\space a LeTeX package optimization problem]
+\ProvidesPackage{\oppr@pkgname}[2016/05/20 \oppr@pkgversion\space LeTeX package for the description of optimization problem]
 \RequirePackage{pgfopts}
 \RequirePackage{mathtools}
 \def\oppr@error{\PackageError\oppr@pkgname}
@@ -25,7 +25,6 @@
 }
 \DeclareMathOperator*\oppr@operation@op{\oppr@operation}
 \def\oppr@operation@ord#1{\mathord{\oppr@operation@op\oppr@subscr{#1}}}
-% \def\optprobset{\pgfqkeys{/optprob/?}}
 \DeclareMathOperator*\argmax{arg\,max}
 \DeclareMathOperator*\argmin{arg\,min}
 \def\oppr@subjectto{\mathrm{\oppr@subjectto@notation}}
