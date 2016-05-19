@@ -21,7 +21,7 @@
 \maketitle
 \begin{abstract}
     \sty{optprob} is a package that offers you useful features for writing optimization problems in a structured manner.
-	The package also provides highly customizable options for the appearance of the optimization problems.
+    The package also provides highly customizable options for the appearance of the optimization problems.
 \end{abstract}
 \tableofcontents
 \section{Introduction}
@@ -30,16 +30,16 @@ In order to illustrate optimization problems, one can utilize \env{alignat} envi
 A simple example like this,
 
 \begin{minted}{latex}
-	\documentclass{article}
-	\usepakcge{amsmath}
-	\DeclareMathOperator*\maximize{maximize}
-	\begin{document}
-		\begin{alignat}{2}
-		    & \mathord{\maximize_{x_1,x_2\in\mathbf{R}}} & \quad & c_1x_1+c_2x_2 \\
-		    & \text{subject to} & & a_{11}x_1+a_{12}x_2 \leq b_1 \\
-		    & & & a_{21}x_1+a_{22}x_2\leq b_2.
-		\end{alignat}
-	\end{document}
+    \documentclass{article}
+    \usepakcge{amsmath}
+    \DeclareMathOperator*\maximize{maximize}
+    \begin{document}
+        \begin{alignat}{2}
+            & \mathord{\maximize_{x_1,x_2\in\mathbf{R}}} & \quad & c_1x_1+c_2x_2 \\
+            & \text{subject to} & & a_{11}x_1+a_{12}x_2 \leq b_1 \\
+            & & & a_{21}x_1+a_{22}x_2\leq b_2.
+        \end{alignat}
+    \end{document}
 \end{minted}
 will produce
 \begin{alignat}{2}
@@ -69,12 +69,12 @@ This package requires \sty{mathtools} and \sty{pgfkeys} to make use of it, and l
 \begin{multicols}{3}
 \begin{itemize}
     \item \sty{fontenc}
-	\item \sty{geometry}
+    \item \sty{geometry}
     \item \sty{hologo}
     \item \sty{lmodern}
-	\item \sty{ltxdockit}
-	\item \sty{minted}
-	\item \sty{multicol}
+    \item \sty{ltxdockit}
+    \item \sty{minted}
+    \item \sty{multicol}
 \end{itemize}
 \end{multicols}
 All the packages above are bundled with recent \TeX~Live by default.
@@ -116,12 +116,12 @@ For the time being, this package has no options available.
 	Each setting can be given in $\prm{key}=\prm{value}$ syntax as follows.
 
     \begin{optionlist}
-		\boolitem[false]{abbrev}
+        \boolitem[false]{abbrev}
 
-		to or not to abbreviate the terms such as maximize, minimize and subject~to.
-		\optitem[1em]{space}{\prm{dimension}}
+        to or not to abbreviate the terms such as maximize, minimize and subject~to.
+        \optitem[1em]{space}{\prm{dimension}}
 
-		space between two columns.
+        space between two columns.
     \end{optionlist}
 
     \envitem{maximize}[layout formatting]
@@ -138,40 +138,40 @@ Within these environments above, the following macros are locally defined:
 \begin{ltxsyntax}
     \cmditem{objfunc}{objective function}
 
-	sets the objective function to be maximized or minimized.
-	You \emph{must} use this macro once per one environment.
+    sets the objective function to be maximized or minimized.
+    You \emph{must} use this macro once per one environment.
 
     \cmditem{variable}{variable}
 
-	denotes the variables over which the objective function is optimized.
-	You can use this macro once per one environment.
+    denotes the variables over which the objective function is optimized.
+    You can use this macro once per one environment.
 
     \cmditem{addconstraint}{constraint}
 
-	adds constraints of the problem.
-	You can use this macro as many times as necessary.
+    adds constraints of the problem.
+    You can use this macro as many times as necessary.
 \end{ltxsyntax}
 \newpage
 \subsection{Demos}
 I will  demonstrate some simple examples.
 
 \begin{multicols}{2}
-	\begin{minted}{latex}
-		\begin{optimize}{max}
-			\objfunc{2x-y}
-			\variable{x, y}
-			\addconstraint{x-y\le1}
-			\addconstraint{-x+y\le-2}
-			\addconstraint{x, y\ge0}
-		\end{optimize}
-	\end{minted}
-	\begin{optimize}{max}
-		\objfunc{2x-y}
-		\variable{x, y}
-		\addconstraint{x-y\le1}
-		\addconstraint{-x+y\le-2}
-		\addconstraint{x, y\ge0}
-	\end{optimize}
+    \begin{minted}{latex}
+        \begin{optimize}{max}
+            \objfunc{2x-y}
+            \variable{x, y}
+            \addconstraint{x-y\le1}
+            \addconstraint{-x+y\le-2}
+            \addconstraint{x, y\ge0}
+        \end{optimize}
+    \end{minted}
+    \begin{optimize}{max}
+        \objfunc{2x-y}
+        \variable{x, y}
+        \addconstraint{x-y\le1}
+        \addconstraint{-x+y\le-2}
+        \addconstraint{x, y\ge0}
+    \end{optimize}
 \end{multicols}
 \begin{multicols}{2}
 \begin{minted}{latex}
@@ -181,8 +181,8 @@ I will  demonstrate some simple examples.
 \end{minimize}
 \end{minted}
 \begin{minimize}[abbrev=true,space=2em]
-	\objfunc{\sin\theta+2\cos\phi}
-	\addconstraint{3\theta-\phi=7\pi}
+    \objfunc{\sin\theta+2\cos\phi}
+    \addconstraint{3\theta-\phi=7\pi}
 \end{minimize}
 \end{multicols}
 
@@ -195,6 +195,6 @@ This package is distributed under the MIT License: \url{https://opensource.org/l
 \section{Changelog}
 \paragraph{v0.1} (May 20, 2016)
 \begin{itemize}
-	\item Fisrt publication.
+    \item Fisrt publication.
 \end{itemize}
 \end{document}
