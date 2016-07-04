@@ -9,6 +9,8 @@
 \usepackage{optprob}
 \renewcommand*{\optionlistfont}{\ttfamily}
 \makeatletter
+\def\pTeX{p\kern-.15em\TeX}
+\def\upTeX{up\kern-.15em\TeX}
 \patchcmd{\ltd@envitem}{\{{\ltxsyntaxfont\ltxsyntaxlabelfont#1}\}}{{\ltxsyntaxfont\ltxsyntaxlabelfont\{#1\}}}{}{}
 \DeclareMathOperator*\maximize{maximize}
 \setminted{autogobble,xleftmargin=.5em,tabsize=4}
@@ -62,7 +64,7 @@ Semantically-named macros enhance your code's readability compared to the bare \
 \section{Requirements}
 The \sty{optprob} package is supported on the following engines and format.
 \begin{itemize}
-    \item {\TeX} engine: \TeX, \hologo{pdfTeX}, \hologo{XeTeX}, \hologo{LuaTeX}, {p\TeX} and up\TeX
+    \item {\TeX} engine: \TeX, \hologo{pdfTeX}, \hologo{XeTeX}, \hologo{LuaTeX}, {\pTeX} and \upTeX
     \item {\TeX} format: \LaTeXe\ (\hologo{plainTeX} and \hologo{ConTeXt} are not supported.)
 \end{itemize}
 This package requires \sty{mathtools} and \sty{pgfkeys} to make use of it, and listed below are necessary packages to typeset this documentation besides the prerequisite packages:
@@ -112,8 +114,8 @@ For the time being, this package has no options available.
     \envitem{optimize}[layout formatting]{operation type}
 
     either \mbox{\verbatimfont max} or \mbox{\verbatimfont min} can be used for \prm{operation type} according to the problem you want to represent.
-	You can specify the design of the environment in the \prm{layout formatting} option.
-	Each setting can be given in $\prm{key}=\prm{value}$ syntax as follows.
+    You can specify the design of the environment in the \prm{layout formatting} option.
+    Each setting can be given in $\prm{key}=\prm{value}$ syntax as follows.
 
     \begin{optionlist}
         \boolitem[false]{abbrev}
@@ -193,7 +195,11 @@ The author is thankful to those who made and/or have been mantaining the package
 This package is distributed under the MIT License: \url{https://opensource.org/licenses/MIT}.
 
 \section{Changelog}
-\paragraph{v0.1} (May 20, 2016)
+\paragraph{v0.1.1} (July 5, 2016)
+\begin{itemize}
+    \item Fix the incompatibility with \env{minipage} environment.
+\end{itemize}
+\paragraph{v0.1.0} (May 25, 2016)
 \begin{itemize}
     \item Fisrt publication.
 \end{itemize}
