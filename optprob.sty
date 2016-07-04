@@ -44,16 +44,16 @@
 \pgfkeys{
     /optprob/env/optimize/.cd,
     default/.style={
-        space=1em,
         abbrev=false,
-        showeqnum=true
+        showeqnum=true,
+        space=1em
     },
-    space/.store in=\oppr@space,
     abbrev/.is if=oppr@abbreviation,
-    showeqnum/.is if=oppr@showequationnumber,
     operation/.code={
         \def\oppr@operation{\csname oppr@#1imize@notation\endcsname}
-    }
+    },
+    showeqnum/.is if=oppr@showequationnumber,
+    space/.store in=\oppr@space
 }
 %
 \newenvironment{optimize}[2][]{%
