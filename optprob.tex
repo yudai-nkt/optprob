@@ -103,53 +103,44 @@ For the time being, this package has no options available.
 
 \subsection{Macros and environments}
 \begin{ltxsyntax}
-    \cmditem{argmax}
-
+    \cmditem{argmax}\par
     prints ``$\argmax$'', which denotes arguments of the maximum.
 
-    \cmditem{argmin}
-
+    \cmditem{argmin}\par
     is the minimum counterpart of \texttt{\string\argmax}.
 
-    \envitem{optimize}[layout formatting]{operation type}
-
+    \envitem{optimize}[layout formatting]{operation type}\par
     either \mbox{\verbatimfont max} or \mbox{\verbatimfont min} can be used for \prm{operation type} according to the problem you want to represent.
     You can specify the design of the environment in the \prm{layout formatting} option.
     Each setting can be given in $\prm{key}=\prm{value}$ syntax as follows.
 
     \begin{optionlist}
         \boolitem[false]{abbrev}
-
         to or not to abbreviate the terms such as maximize, minimize and subject~to.
-        \optitem[1em]{space}{\prm{dimension}}
 
+        \boolitem[true]{showeqnum}
+        to or not to show the equation numbers in each line.
+
+        \optitem[1em]{space}{\prm{dimension}}
         space between two columns.
     \end{optionlist}
 
-    \envitem{maximize}[layout formatting]
-
+    \envitem{maximize}[layout formatting]\par
     is equivalent to the \env{optimize} environment with the mandatory argument set to \mbox{\verbatimfont max}.
 
-    \envitem{minimize}[layout formatting]
-
+    \envitem{minimize}[layout formatting]\par
     is equivalent to the \env{optimize} environment with the mandatory argument set to \mbox{\verbatimfont min}.
     Note that this and \env{maximize} environments are defined only if \cs{minimize} and \cs{maximize} are not defined in the preamble respectively.
 \end{ltxsyntax}
 
 Within these environments above, the following macros are locally defined:
 \begin{ltxsyntax}
-    \cmditem{objfunc}{objective function}
-
-    sets the objective function to be maximized or minimized.
+    \cmditem{objfunc}[variables]{objective function}\par
+    sets the objective function to be maximized or minimized and denotes the variables over which the objective function is optimized.
+    The default value for optional argument is an empty string.
     You \emph{must} use this macro once per one environment.
 
-    \cmditem{variable}{variable}
-
-    denotes the variables over which the objective function is optimized.
-    You can use this macro once per one environment.
-
-    \cmditem{addconstraint}{constraint}
-
+    \cmditem{addconstraint}{constraint}\par
     adds constraints of the problem.
     You can use this macro as many times as necessary.
 \end{ltxsyntax}
@@ -160,16 +151,14 @@ I will  demonstrate some simple examples.
 \begin{multicols}{2}
     \begin{minted}{latex}
         \begin{optimize}{max}
-            \objfunc{2x-y}
-            \variable{x, y}
+            \objfunc[x, y]{2x-y}
             \addconstraint{x-y\le1}
             \addconstraint{-x+y\le-2}
             \addconstraint{x, y\ge0}
         \end{optimize}
     \end{minted}
     \begin{optimize}{max}
-        \objfunc{2x-y}
-        \variable{x, y}
+        \objfunc[x, y]{2x-y}
         \addconstraint{x-y\le1}
         \addconstraint{-x+y\le-2}
         \addconstraint{x, y\ge0}
@@ -177,12 +166,14 @@ I will  demonstrate some simple examples.
 \end{multicols}
 \begin{multicols}{2}
 \begin{minted}{latex}
-\begin{minimize}[abbrev=true,space=2em]
+\begin{minimize}[
+    abbrev=true,space=2em,showeqnum=false
+]
     \objfunc{\sin\theta+2\cos\phi}
     \addconstraint{3\theta-\phi=7\pi}
 \end{minimize}
 \end{minted}
-\begin{minimize}[abbrev=true,space=2em]
+\begin{minimize}[abbrev=true,space=2em,showeqnum=false]
     \objfunc{\sin\theta+2\cos\phi}
     \addconstraint{3\theta-\phi=7\pi}
 \end{minimize}
@@ -195,6 +186,11 @@ The author is thankful to those who made and/or have been mantaining the package
 This package is distributed under the MIT License: \url{https://opensource.org/licenses/MIT}.
 
 \section{Changelog}
+\paragraph{v0.2.0} (July 5, 2016)
+\begin{itemize}
+    \item Add an option for switching the appearance of equation numbers.
+    \item Change the way of specifying variables in \env{optimize} environment and friends.
+\end{itemize}
 \paragraph{v0.1.1} (July 5, 2016)
 \begin{itemize}
     \item Fix the incompatibility with \env{minipage} environment.
