@@ -16,7 +16,7 @@
 %
 \def\oppr@empty{}
 \def\oppr@subscr#1{%
-    \ifx#1\relax
+    \if\relax\detokenize\expandafter{#1}\relax
         \expandafter\@gobble
     \else
         \expandafter\@firstofone
@@ -59,8 +59,10 @@
 \newenvironment{optimize}[2][]{%
     \pgfkeys{/optprob/env/optimize/.cd, default, #1, operation=#2}%
     \oppr@switch@notation
-    \def\objfunc##1{\newcommand\oppr@objfunc{##1}}
-    \def\variable##1{\newcommand\oppr@variable{##1}}
+    \newcommand\objfunc[2][]{%
+        \newcommand\oppr@variable{##1}%
+        \newcommand\oppr@objfunc{##2}%
+    }
     \def\addconstraint##1{%
         \if\relax\detokenize\expandafter{\the\@temptokena}\relax
             \@temptokena={\\ & \oppr@subjectto & & ##1}%
@@ -71,11 +73,11 @@
 }{%
     \ifoppr@showequationnumber
         \begin{alignat}{3}
-            & \expandafter\oppr@operation@ord\csname oppr@variable\endcsname & \hskip\oppr@space\relax & \oppr@objfunc \the\@temptokena
+            & \oppr@operation@ord\oppr@variable & \hskip\oppr@space\relax & \oppr@objfunc \the\@temptokena
         \end{alignat}%
     \else
         \begin{alignat*}{3}
-            & \expandafter\oppr@operation@ord\csname oppr@variable\endcsname & \hskip\oppr@space\relax & \oppr@objfunc \the\@temptokena
+            & \oppr@operation@ord\oppr@variable & \hskip\oppr@space\relax & \oppr@objfunc \the\@temptokena
         \end{alignat*}%
     \fi
 }
