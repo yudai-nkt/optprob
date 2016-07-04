@@ -31,7 +31,7 @@ You need these packages to generate the documentation:
 * `multicol`
 
 ### Installation
-Clone the repository or download from the [Releases](https://github.com/yudai-nkt/optprob/releases).
+Clone the repository or download the archive from the [Releases](https://github.com/yudai-nkt/optprob/releases).
 Put each file in the following directories.
 
 * `optprob.sty`: `$TEXMF/tex/latex/optprob/`
@@ -49,6 +49,7 @@ Contributions are highly welcome. Feel free to report an [issue](https://github.
 
 ### License
 This package is distributed under the MIT License.
+See [LICENSE.md](./LICENSE.md) for details.
 
 ---
 Copyright (c) 2016 Yudai NAKATA
