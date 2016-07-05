@@ -39,11 +39,6 @@ Put each file in the following directories.
 
 Don't forget to run `mktexlsr` if necessary.
 
-### Roadmap
-* make starred environments
-* establish a cross reference system
-* (rewrite the package using DocStrip)
-
 ### Contribution
 Contributions are highly welcome. Feel free to report an [issue](https://github.com/yudai-nkt/optprob/issues) or create a [pull request](https://github.com/yudai-nkt/optprob/pulls).
 
