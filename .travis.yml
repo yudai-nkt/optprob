@@ -1,0 +1,34 @@
+notifications:
+  email:
+    on_success: never
+    on_failure: change
+os:
+  - osx
+branches:
+  only:
+    - master
+git:
+  depth: 10
+install:
+  - curl -L -O http://mirrors.concertpass.com/tex-archive/systems/mac/mactex/BasicTeX.pkg
+  - sudo installer -pkg BasicTeX.pkg -target /
+  - export PATH=/usr/texbin:$PATH
+  - sudo tlmgr update --self --all
+  - sudo tlmgr install ltxdockit minted fvextra ifplatform xstring framed pgfopts mathtools
+  - sudo pip install pygments
+script:
+  - pdflatex -shell-escape -halt-on-error -interaction=nonstopmode optprob.tex
+after_success:
+  - git fetch origin gh-pages:gh-pages
+  - git stash -u
+  - git checkout gh-pages
+  - rm optprob.pdf
+  - git stash pop
+  - git add optprob.pdf
+  - git commit -m "Auto deployment from Travis CI build $TRAVIS_BUILD_NUMBER" -m "" -m "Test with $TRAVIS_COMMIT"
+  - git push --quiet https://$GH_TOKEN@github.com/yudai-nkt/optprob.git gh-pages 2> /dev/null
+env:
+  global:
+    - GIT_COMMITTER_NAME="Yudai NAKATA"
+    - GIT_COMMITTER_EMAIL="yudai-nkt@outlook.jp"
+    - secure: dx75jNsRbOpBBpu6TAXFVCPxABzkFmL6b71k/sv/CNQDeGirOHB/Y/Z30TENaAaQhRvemspS6F8gVGJqhil+zJUAiX+jZp7SdC0UmMs6ic2kXSkb1V7bKXo/XEOSc6nCWOZwV6w9N86x6cLvkxFnaApTthzcfpCOz+hmtdQ3M7J3BCufnF35w/aVl6RqCkLSNrOFN12XRmdqe2RVSjmUuoLEs9WHx4V+6P4u2ZmguARxk9ML8GCVOFqCvkAxMUYbehRVKFKgB/ATnWkMOSl5HlbOzf2asfgJPPJW9Qsi5uNm8zXz2nakwnmmLMI85BAo45pTgoAfIR7KEx+FmwL1lR9xWqwq5zCbDMoPqVtDp1VUJc2VK9j6kMbnMjCLfETkWUS8wmQixwOt0i7mTXf6eI7GXjiLOdVFTzZ1xi1eC5Z6B33LPTTCvY6jm+9JFeTj/p/LlJY9HYplY00F1VbFhmgtS8jYnWPqPj7ue+iOQicWMJHyCIybNIgt1XtMLfGbfsF3uNvOOuJijgj0TaSqSZOT+erXHufOF+A8FIaGB4q78tb8R66fIKciM8R850RikfGhlZsQaVX/c6w+8Nt2NrSD5hrjlsHaDZnxAMGpy5l71ePjDUKgMdY4NMAhFiZPtlk4JFCUH5xs43p0gpsKypYpeDZcGCSkLmsAmBbuDNY=
