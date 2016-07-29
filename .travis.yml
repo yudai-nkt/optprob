@@ -14,10 +14,10 @@ install:
   - sudo installer -pkg BasicTeX.pkg -target /
   - export PATH=/usr/texbin:$PATH
   - sudo tlmgr update --self --all
-  - sudo tlmgr install ltxdockit minted fvextra ifplatform xstring framed pgfopts mathtools
+  - sudo tlmgr install latexmk ltxdockit minted fvextra ifplatform xstring framed pgfopts mathtools
   - sudo pip install pygments
 script:
-  - pdflatex -shell-escape -halt-on-error -interaction=nonstopmode optprob.tex
+  - latexmk optprob.tex
 after_success:
   - git fetch origin gh-pages:gh-pages
   - git stash -u
