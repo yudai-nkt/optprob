@@ -1,12 +1,15 @@
 The `optprob` package
 ---
+[![Build Status]( 	https://img.shields.io/travis/yudai-nkt/optprob/master.svg)](https://travis-ci.org/yudai-nkt/optprob)
+[![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](./LICENSE)
+
 A LaTeX package that helps you denote optimization problems.
 
 ### Overview
 The author says in the package documentation,
 > the `optprob` package provides an elegant and semantic syntax for optimization problems.
 
-See the full documentation for further information.
+See [the documentation](http://yudai-nkt.github.io/optprob/optprob.pdf) for further information.
 
 ### Requirements
 #### TeX system
