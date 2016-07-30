@@ -9,14 +9,18 @@
 \def\oppr@pkgname{optprob}
 \def\oppr@pkgversion{v0.2.0}
 \ProvidesPackage{\oppr@pkgname}[2016/07/05 \oppr@pkgversion\space LeTeX package for the description of optimization problem]
+\newif\ifoppr@ignorecfg
 \RequirePackage{pgfopts}
+\pgfkeys{
+    /optprob/option/.cd,
+    ignorecfg/.code=\oppr@ignorecfgtrue,
+    mathtools/.code=\PassOptionsToPackage{#1}{mathtools}
+}
+\ProcessPgfOptions{/optprob/option}
 \RequirePackage{mathtools}
 \def\oppr@error{\PackageError\oppr@pkgname}
 \def\oppr@warning{\PackageWarning\oppr@pkgname}
 \def\oppr@info{\PackageInfo\oppr@pkgname}
-\newif\ifoppr@ignorecfg
-\DeclareOption{ignorecfg}{\oppr@ignorecfgtrue}
-\ProcessOptions\relax
 %
 \def\oppr@empty{}
 \def\oppr@subscr#1{%
