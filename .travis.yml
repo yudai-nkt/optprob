@@ -14,7 +14,7 @@ install:
   - sudo installer -pkg BasicTeX.pkg -target /
   - export PATH=/usr/texbin:$PATH
   - sudo tlmgr update --self --all
-  - sudo tlmgr install latexmk ltxdockit minted fvextra ifplatform xstring framed pgfopts mathtools
+  - sudo tlmgr install latexmk ltxdockit minted fvextra ifplatform xstring framed pgfopts mathtools cleveref
   - sudo pip install pygments
 script:
   - latexmk optprob.tex
