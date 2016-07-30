@@ -13,6 +13,7 @@ install:
   - curl -L -O http://mirrors.concertpass.com/tex-archive/systems/mac/mactex/BasicTeX.pkg
   - sudo installer -pkg BasicTeX.pkg -target /
   - export PATH=/usr/texbin:$PATH
+  - sudo tlmgr option autobackup 0
   - sudo tlmgr update --self --all
   - sudo tlmgr install latexmk ltxdockit minted fvextra ifplatform xstring framed pgfopts mathtools cleveref
   - sudo pip install pygments
