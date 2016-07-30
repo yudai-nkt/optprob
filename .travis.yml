@@ -21,11 +21,10 @@ script:
   - latexmk optprob.tex
 after_success:
   - git fetch origin gh-pages:gh-pages
-  - git stash -u
+  - cp optprob.pdf /tmp
   - git checkout gh-pages
-  - rm optprob.pdf
-  - git stash pop
-  - git add -f optprob.pdf
+  - mv /tmp/optprob.pdf ./
+  - git add optprob.pdf
   - git commit -m "Auto deployment from Travis CI build $TRAVIS_BUILD_NUMBER" -m "" -m "Test with $TRAVIS_COMMIT"
   - git push --quiet https://$GH_TOKEN@github.com/yudai-nkt/optprob.git gh-pages 2> /dev/null
 env:
