@@ -1,7 +1,7 @@
 The `optprob` package
 ---
 [![Build Status]( 	https://img.shields.io/travis/yudai-nkt/optprob/master.svg)](https://travis-ci.org/yudai-nkt/optprob)
-[![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](./LICENSE)
+[![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](./LICENSE.md)
 
 A LaTeX package that helps you denote optimization problems.
 
