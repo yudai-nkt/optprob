@@ -7,6 +7,7 @@
 \usepackage{minted}
 \usepackage{multicol}
 \usepackage{optprob}
+\usepackage[capitalize]{cleveref}
 \renewcommand*{\optionlistfont}{\ttfamily}
 \makeatletter
 \def\pTeX{p\kern-.15em\TeX}
@@ -67,9 +68,10 @@ The \sty{optprob} package is supported on the following engines and format.
     \item {\TeX} engine: \TeX, \hologo{pdfTeX}, \hologo{XeTeX}, \hologo{LuaTeX}, {\pTeX} and \upTeX
     \item {\TeX} format: \LaTeXe\ (\hologo{plainTeX} and \hologo{ConTeXt} are not supported.)
 \end{itemize}
-This package requires \sty{mathtools} and \sty{pgfkeys} to make use of it, and listed below are necessary packages to typeset this documentation besides the prerequisite packages:
-\begin{multicols}{3}
+This package requires \sty{mathtools} and \sty{pgfopts} to make use of it, and listed below are necessary packages to typeset this documentation besides the prerequisite packages:
+\begin{multicols}{4}
 \begin{itemize}
+    \item \sty{cleveref}
     \item \sty{fontenc}
     \item \sty{geometry}
     \item \sty{hologo}
@@ -96,11 +98,18 @@ Make sure to run \mbox{\texttt{mktexlsr}} if necessary.
 \section{Usage}
 \subsection{Package loading}
 Just put this line in your preamble:
-\begin{minted}{latex}
-\usepackage{optprob}
+\begin{minted}[escapeinside=||]{latex}
+\usepackage[|\prm{options}|]{optprob}
 \end{minted}
-For the time being, this package has no options available.
-
+For the time being, this package has the following options available.
+\begin{ltxsyntax}
+    \optitem{ignorecfg}
+    tells the package to skip reading \file{optprob.cfg}.
+    Details about this file and option are in the \cref{ssec:optprobcfg}.
+    \optitem{mathtools}
+    is specified with $\prm{key} = \prm{value}$ syntax.
+    If \prm{mathtools options} is set to the value of \sty{mathtools} key, it is passed to \sty{mathtools} package's option.
+\end{ltxsyntax}
 \subsection{Macros and environments}
 \begin{ltxsyntax}
     \cmditem{argmax}\par
@@ -178,6 +187,13 @@ I will  demonstrate some simple examples.
     \addconstraint{3\theta-\phi=7\pi}
 \end{minimize}
 \end{multicols}
+
+\subsection{The \file{optprob.cfg} file} \label{ssec:optprobcfg}
+If your \TeX{} system finds a file named \file{optprob.cfg} when typesetting, that file is automatically loaded.
+The primary purpose of \file{optprob.cfg} is to store your frequent customizations so that you do not have to spend time and energy writing repetitive preamble every time you make new material.
+
+You sometimes do not want the package to load your \file{optprob.cfg}.
+In such cases, use \opt{ignorecfg} option, and loading \file{optprob.cfg} will be disabled in that document. This option does nothing when \file{optprob.cfg} is not found.
 
 \section{Acknowledgements}
 The author is thankful to those who made and/or have been mantaining the packages on which \sty{optprob} has dependency.
