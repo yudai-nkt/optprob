@@ -26,7 +26,7 @@ after_success:
   - rm optprob.pdf
   - git stash pop
   - git add optprob.pdf
-  - git commit -m "Auto deployment from Travis CI build $TRAVIS_BUILD_NUMBER" -m "" -m "Test with $TRAVIS_COMMIT"
+  - git commit -a -m "Auto deployment from Travis CI build $TRAVIS_BUILD_NUMBER" -m "" -m "Test with $TRAVIS_COMMIT"
   - git push --quiet https://$GH_TOKEN@github.com/yudai-nkt/optprob.git gh-pages 2> /dev/null
 env:
   global:
