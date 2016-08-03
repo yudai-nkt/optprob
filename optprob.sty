@@ -115,10 +115,10 @@
 }
 \ifoppr@ignorecfg
     \IfFileExists{\oppr@pkgname.cfg}{%
-        \PackageInfo{\oppr@pkgname}{\oppr@pkgname.cfg is ignored}%
+        \oppr@info{\oppr@pkgname.cfg is ignored}%
     }{}
 \else
     \InputIfFileExists{\oppr@pkgname.cfg}{%
-        \PackageInfo{\oppr@pkgname}{\oppr@pkgname.cfg is loaded}%
+        \oppr@info{\oppr@pkgname.cfg is loaded}%
     }{}
 \fi
