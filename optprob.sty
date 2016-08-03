@@ -18,7 +18,7 @@
 }
 \ProcessPgfOptions{/optprob/option}
 \RequirePackage{mathtools}
-\def\oppr@error{\PackageError\oppr@pkgname}
+\def\oppr@error#1{\PackageError\oppr@pkgname{#1}\@ehc}
 \def\oppr@warning{\PackageWarning\oppr@pkgname}
 \def\oppr@info{\PackageInfo\oppr@pkgname}
 %
@@ -68,8 +68,12 @@
     \pgfkeys{/optprob/env/optimize/.cd, default, #1, operation=#2}%
     \oppr@switch@notation
     \newcommand\objfunc[2][]{%
-        \newcommand\oppr@variable{##1}%
-        \newcommand\oppr@objfunc{##2}%
+        \expandafter\ifx\csname oppr@objfunc\endcsname\relax
+            \def\oppr@variable{##1}%
+            \def\oppr@objfunc{##2}%
+        \else
+            \oppr@error{You already set objective function in the current environment}%
+        \fi
     }
     \def\addconstraint##1{%
         \if\relax\detokenize\expandafter{\the\@temptokena}\relax
@@ -79,14 +83,18 @@
         \fi
     }%
 }{%
-    \ifoppr@showequationnumber
-        \begin{alignat}{3}
-            & \oppr@operation@ord\oppr@variable & \hskip\oppr@space\relax & \mathopen{} \oppr@objfunc \the\@temptokena
-        \end{alignat}%
+    \expandafter\ifx\csname oppr@objfunc\endcsname\relax
+        \oppr@error{You do not set objective function in the current environment}%
     \else
-        \begin{alignat*}{3}
-            & \oppr@operation@ord\oppr@variable & \hskip\oppr@space\relax & \mathopen{} \oppr@objfunc \the\@temptokena
-        \end{alignat*}%
+        \ifoppr@showequationnumber
+            \begin{alignat}{3}
+                & \oppr@operation@ord\oppr@variable & \hskip\oppr@space\relax & \mathopen{} \oppr@objfunc \the\@temptokena
+            \end{alignat}%
+        \else
+            \begin{alignat*}{3}
+                & \oppr@operation@ord\oppr@variable & \hskip\oppr@space\relax & \mathopen{} \oppr@objfunc \the\@temptokena
+            \end{alignat*}%
+        \fi
     \fi
 }
 \AtBeginDocument{%
