@@ -67,7 +67,7 @@
 \newenvironment{optimize}[2][]{%
     \pgfkeys{/optprob/env/optimize/.cd, default, #1, operation=#2}%
     \oppr@switch@notation
-    \newcommand\objfunc[2][]{%
+    \newcommand*\objfunc[2][]{%
         \expandafter\ifx\csname oppr@objfunc\endcsname\relax
             \def\oppr@variable{##1}%
             \def\oppr@objfunc{##2}%
@@ -75,7 +75,7 @@
             \oppr@error{You already set objective function in the current environment}%
         \fi
     }
-    \def\addconstraint##1{%
+    \newcommand*\addconstraint[1]{%
         \if\relax\detokenize\expandafter{\the\@temptokena}\relax
             \@temptokena={\\ & \oppr@subjectto & & \mathopen{} ##1}%
         \else
@@ -98,14 +98,14 @@
     \fi
 }
 \AtBeginDocument{%
-    \ifx\maximize\@undefined
+    \expandafter\ifx\csname maximize\endcsname\relax
         \newenvironment{maximize}[1][]{%
             \begin{optimize}[#1]{max}
         }{%
             \end{optimize}%
         }
     \fi
-    \ifx\minimize\@undefined
+    \expandafter\ifx\csname minimize\endcsname\relax
         \newenvironment{minimize}[1][]{%
             \begin{optimize}[#1]{min}
         }{%
