@@ -1,6 +1,6 @@
 \documentclass[a4paper,10pt]{article}
 \usepackage[T1]{fontenc}
-\usepackage[margin=1.25in]{geometry}
+% \usepackage[margin=1.25in]{geometry}
 \usepackage{hologo}
 \usepackage{lmodern}
 \usepackage{ltxdockit}
@@ -15,6 +15,10 @@
 \patchcmd{\ltd@envitem}{\{{\ltxsyntaxfont\ltxsyntaxlabelfont#1}\}}{{\ltxsyntaxfont\ltxsyntaxlabelfont\{#1\}}}{}{}
 \DeclareMathOperator*\maximize{maximize}
 \setminted{autogobble,xleftmargin=.5em,tabsize=4}
+\hypersetup{
+    colorlinks,
+    linktoc=page
+}
 \makeatother
 \title{The \sty{optprob} package\footnote{\url{https://github.com/yudai-nkt/optprob}}}
 \author{Yudai NAKATA}
@@ -30,25 +34,21 @@
 \section{Introduction}
 \subsection{Motivation}
 In order to illustrate optimization problems, one can utilize \env{alignat} environment from the \sty{amsmath} package.
-A simple example like this,
+A simple example like this (assuming \sty{amsmath} is loaded),
 
 \begin{minted}{latex}
-    \documentclass{article}
-    \usepakcge{amsmath}
     \DeclareMathOperator*\maximize{maximize}
-    \begin{document}
-        \begin{alignat}{2}
-            & \mathord{\maximize_{x_1,x_2\in\mathbf{R}}} & \quad & c_1x_1+c_2x_2 \\
-            & \text{subject to} & & a_{11}x_1+a_{12}x_2 \leq b_1 \\
-            & & & a_{21}x_1+a_{22}x_2\leq b_2.
-        \end{alignat}
-    \end{document}
+    \begin{alignat}{2}
+        & \mathord{\maximize_{x_1,x_2\in\mathbf{R}}} & \quad & c_1x_1+c_2x_2 \\
+        & \text{subject to} & & a_{11}x_1+a_{12}x_2 \leq b_1 \\
+        & & & a_{21}x_1+a_{22}x_2 \leq b_2.
+    \end{alignat}
 \end{minted}
 will produce
 \begin{alignat}{2}
     & \mathord{\maximize_{x_1,x_2\in\mathbf{R}}} & \quad & c_1x_1+c_2x_2 \\
     & \text{subject to} & & a_{11}x_1+a_{12}x_2 \leq b_1 \\
-    & & & a_{21}x_1+a_{22}x_2\leq b_2.
+    & & & a_{21}x_1+a_{22}x_2 \leq b_2.
 \end{alignat}
 One can also use other \env{align}-variant environments or \env{array} environment.
 
@@ -58,8 +58,17 @@ Also, it is difficult to intuitively grasp the role of each formulae at a glance
 
 \subsection{Objective of this package}
 The \sty{optprob} package provides an elegant and semantic syntax for optimization problems.
-With the aid of this package, you are free from the concern about the number of ampersands.
-You can easily switch the spacing or other settings via $\prm{key} = \prm{value}$ syntax.
+With the aid of this package, the optimization problem above can be marked up as follows.
+\begin{minted}{latex}
+    \begin{optimize}{max}
+        \objfunc[x_1,x_2\in\mathbf{R}}]{c_1x_1+c_2x_2}
+        \addconstraint{a_{11}x_1+a_{12}x_2 \leq b_1}
+        \addconstraint{a_{21}x_1+a_{22}x_2 \leq b_2.}
+    \end{optimize}
+\end{minted}
+
+You are free from the concern about formatting the problems.
+You can also easily switch the spacing or other settings via $\prm{key} = \prm{value}$ syntax.
 Semantically-named macros enhance your code's readability compared to the bare \LaTeX\ expression.
 
 \section{Requirements}
@@ -84,15 +93,15 @@ This package requires \sty{mathtools} and \sty{pgfopts} to make use of it, and l
 All the packages above are bundled with recent \TeX~Live by default.
 If any of them are not installed in your {\TeX} system, you can download them via CTAN.
 \section{Installation}
-Clone the repository or download from the Releases.
-It includes three files, i.e.\ \file{optprob.pdf}, \file{optprob.sty} and \file{optprob.tex}.
-Following TDS ({\TeX} Directory Structure), move each file to the corresponding directories
-as follows:
-\begin{itemize}
-    \item \file{optprob.pdf} and \file{optprob.tex} $\to$ \file{texmf/doc/latex/optprob/}
-    \item \file{optprob.sty} $\to$ \file{texmf/tex/latex/optprob/},
-\end{itemize}
-where \file{texmf} is either \file{\$TEXMFLOCAL} or \file{\$TEXMFHOME}.
+The \sty{optprob} package is currently available only at GitHub.
+Download the TDS (\TeX{} Directory Structure) archive \file{optprob.tds.zip} from the GitHub Releases, and move each file to either \file{TEXMFLOCAL} or \file{TEXMFHOME} keeping the directory hierarchy.
+Here is a quick script\footnote{Use \file{TEXMFLOCAL} instead if you install there.} for UNIX-like OS users:
+
+\begin{minted}{sh}
+    curl -O https://github.com/yudai-nkt/optprob/releases/download/v0.2.0/optprob.tds.zip
+    unzip optprob.tds.zip -d $(kpsewhich -var-value TEXMFHOME)
+\end{minted}
+
 Make sure to run \mbox{\texttt{mktexlsr}} if necessary.
 
 \section{Usage}
@@ -104,96 +113,86 @@ Just put this line in your preamble:
 For the time being, this package has the following options available.
 \begin{ltxsyntax}
     \optitem{ignorecfg}
-    tells the package to skip reading \file{optprob.cfg}.
+    This option tells the package to skip reading \file{optprob.cfg}.
     Details about this file and option are in the \cref{ssec:optprobcfg}.
     \optitem{mathtools}
-    is specified with $\prm{key} = \prm{value}$ syntax.
+    This option is specified with $\prm{key} = \prm{value}$ syntax.
     If \prm{mathtools options} is set to the value of \sty{mathtools} key, it is passed to \sty{mathtools} package's option.
+    You need to enclose \prm{mathtools options} by curly braces if more than one options are passed.
 \end{ltxsyntax}
-\subsection{Macros and environments}
+\subsection{User level commands}
 \begin{ltxsyntax}
     \cmditem{argmax}\par
-    prints ``$\argmax$'', which denotes arguments of the maximum.
+    This command outputs ``$\argmax$'', which denotes arguments of the maximum.
 
     \cmditem{argmin}\par
-    is the minimum counterpart of \texttt{\string\argmax}.
+    This command is the minimum counterpart of \texttt{\string\argmax}.
 
     \envitem{optimize}[layout formatting]{operation type}\par
-    either \mbox{\verbatimfont max} or \mbox{\verbatimfont min} can be used for \prm{operation type} according to the problem you want to represent.
+    Either \mbox{\verbatimfont max} or \mbox{\verbatimfont min} can be used for \prm{operation type} according to the problem you want to represent.
     You can specify the design of the environment in the \prm{layout formatting} option.
     Each setting can be given in $\prm{key}=\prm{value}$ syntax as follows.
 
     \begin{optionlist}
         \boolitem[false]{abbrev}
-        to or not to abbreviate the terms such as maximize, minimize and subject~to.
+        This key tells whether or not to abbreviate the terms such as maximize, minimize and subject~to.
 
         \boolitem[true]{showeqnum}
-        to or not to show the equation numbers in each line.
+        This key tells whether or not to show the equation numbers in each line.
 
         \optitem[1em]{space}{\prm{dimension}}
-        space between two columns.
+        This key sets the space between two columns.
     \end{optionlist}
 
     \envitem{maximize}[layout formatting]\par
-    is equivalent to the \env{optimize} environment with the mandatory argument set to \mbox{\verbatimfont max}.
+    This environment is equivalent to the \env{optimize} environment with the mandatory argument set to \mbox{\verbatimfont max}.
 
     \envitem{minimize}[layout formatting]\par
-    is equivalent to the \env{optimize} environment with the mandatory argument set to \mbox{\verbatimfont min}.
+    This environment is equivalent to the \env{optimize} environment with the mandatory argument set to \mbox{\verbatimfont min}.
     Note that this and \env{maximize} environments are defined only if \cs{minimize} and \cs{maximize} are not defined in the preamble respectively.
 \end{ltxsyntax}
 
 Within these environments above, the following macros are locally defined:
 \begin{ltxsyntax}
     \cmditem{objfunc}[variables]{objective function}\par
-    sets the objective function to be maximized or minimized and denotes the variables over which the objective function is optimized.
+    This command sets the objective function to be maximized or minimized and denotes the variables over which the objective function is optimized.
     The default value for optional argument is an empty string.
     You \emph{must} use this macro once per one environment.
 
     \cmditem{addconstraint}{constraint}\par
-    adds constraints of the problem.
+    This command adds constraints of the problem.
     You can use this macro as many times as necessary.
 \end{ltxsyntax}
-\newpage
-\subsection{Demos}
-I will  demonstrate some simple examples.
 
-\begin{multicols}{2}
-    \begin{minted}{latex}
-        \begin{optimize}{max}
-            \objfunc[x, y]{2x-y}
-            \addconstraint{x-y\le1}
-            \addconstraint{-x+y\le-2}
-            \addconstraint{x, y\ge0}
-        \end{optimize}
-    \end{minted}
-    \begin{optimize}{max}
-        \objfunc[x, y]{2x-y}
-        \addconstraint{x-y\le1}
-        \addconstraint{-x+y\le-2}
-        \addconstraint{x, y\ge0}
-    \end{optimize}
-\end{multicols}
-\begin{multicols}{2}
-\begin{minted}{latex}
-\begin{minimize}[
-    abbrev=true,space=2em,showeqnum=false
-]
-    \objfunc{\sin\theta+2\cos\phi}
-    \addconstraint{3\theta-\phi=7\pi}
-\end{minimize}
-\end{minted}
-\begin{minimize}[abbrev=true,space=2em,showeqnum=false]
-    \objfunc{\sin\theta+2\cos\phi}
-    \addconstraint{3\theta-\phi=7\pi}
-\end{minimize}
-\end{multicols}
+Let me go back to explanation of global commands.
+\begin{ltxsyntax}
+    \cmditem{maximizeinline}[options]{objective function}{constraint}\par
+    This command denotes an inline maximization problems.
+    \begin{optionlist}
+        \boolitem[false]{abbrev}
+        This key is the same as the corresponding option of \env{optimize} environment.
+
+        \optitem[(no value)]{variable}{\prm{variable}}
+        This key sets the variables over which the objective function is optimized.
+    \end{optionlist}
+
+    \cmditem{maximizeinline}*[options]{objective function}\par
+    Starred \cmd{maximizeinline} is used when explicit representation of constraint is unnecessary.
+
+    \cmditem{minimizeinline}[options]{objective function}{constraint}\par
+
+    This command is the minimum counterpart of \cmd{maximizeinline}.
+
+    \cmditem{minimizeinline}*[options]{objective function}\par
+    This command is the minimum counterpart of \cmd{maximizeinline*}.
+\end{ltxsyntax}
 
 \subsection{The \file{optprob.cfg} file} \label{ssec:optprobcfg}
-If your \TeX{} system finds a file named \file{optprob.cfg} when typesetting, that file is automatically loaded.
+If your \TeX{} system finds a file named \file{optprob.cfg} somewhere \TeX{} can search, that file is loaded automatically.
 The primary purpose of \file{optprob.cfg} is to store your frequent customizations so that you do not have to spend time and energy writing repetitive preamble every time you make new material.
 
-You sometimes do not want the package to load your \file{optprob.cfg}.
-In such cases, use \opt{ignorecfg} option, and loading \file{optprob.cfg} will be disabled in that document. This option does nothing when \file{optprob.cfg} is not found.
+You sometimes do not want the package to load your \file{optprob.cfg} even if it exists.
+In such cases, use \opt{ignorecfg} option, which will disable the autoload. This option does nothing when \file{optprob.cfg} is not found.
 
 \section{Acknowledgements}
 The author is thankful to those who made and/or have been mantaining the packages on which \sty{optprob} has dependency.
