@@ -20,7 +20,7 @@ See [the documentation](http://yudai-nkt.github.io/optprob/optprob.pdf) for furt
 You need these packages to make use of the package:
 
 * `mathtools`
-* `pgfkeys`
+* `pgfopts`
 
 #### Packages to compile `optprob.tex`
 You need these packages to generate the documentation:
@@ -34,11 +34,13 @@ You need these packages to generate the documentation:
 * `multicol`
 
 ### Installation
-Clone the repository or download the archive from the [Releases](https://github.com/yudai-nkt/optprob/releases/latest).
-Put each file in the following directories.
+Download the archive from the [Releases](https://github.com/yudai-nkt/optprob/releases/latest).
+Unzip the archive in either `TEXMFLOCAL` or `TEXMFHOME`.
 
-* `optprob.sty`: `$TEXMF/tex/latex/optprob/`
-* `optprob.(pdf|tex)`: `$TEXMF/doc/latex/optprob/`
+```sh
+curl -O https://github.com/yudai-nkt/optprob/releases/download/v0.2.0/optprob.tds.zip
+unzip optprob.tds.zip -d $(kpsewhich -var-value TEXMFHOME) # Use TEXMFLOCAL instead if you install there
+```
 
 Don't forget to run `mktexlsr` if necessary.
 
