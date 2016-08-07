@@ -113,6 +113,45 @@
         }
     \fi
 }
+\pgfkeys{
+    /optprob/user/optimizeinline/.cd,
+    default/.style={
+        abbrev=false,
+        variable={}
+    },
+    abbrev/.is if=oppr@abbreviation,
+    operation/.code={
+        \def\oppr@operation{\csname oppr@#1imize@notation\endcsname}
+    },
+    variable/.store in=\oppr@inline@variable,
+    default
+}
+\newcommand*\maximizeinline{\@ifstar\oppr@maximizeinline@unconstrained\oppr@maximizeinline@constrained}
+\def\oppr@maximizeinline@unconstrained{\@ifnextchar[\oppr@maximizeinline@unconstrained@{\oppr@maximizeinline@unconstrained@[]}}
+\def\oppr@maximizeinline@unconstrained@[#1]#2{%
+    \pgfkeys{/optprob/user/optimizeinline/.cd, #1, operation=max}
+    \oppr@switch@notation
+    \oppr@operation@ord\oppr@inline@variable\ #2
+}
+\def\oppr@maximizeinline@constrained{\@ifnextchar[\oppr@maximizeinline@constrained@{\oppr@maximizeinline@constrained@[]}}
+\def\oppr@maximizeinline@constrained@[#1]#2#3{%
+    \pgfkeys{/optprob/user/optimizeinline/.cd, #1, operation=max}
+    \oppr@switch@notation
+    \oppr@operation@ord\oppr@inline@variable\ #2 \ \oppr@subjectto \ #3%
+}
+\newcommand*\minimizeinline{\@ifstar\oppr@minimizeinline@unconstrained\oppr@minimizeinline@constrained}
+\def\oppr@minimizeinline@unconstrained{\@ifnextchar[\oppr@minimizeinline@unconstrained@{\oppr@minimizeinline@unconstrained@[]}}
+\def\oppr@minimizeinline@unconstrained@[#1]#2{%
+    \pgfkeys{/optprob/user/optimizeinline/.cd, #1, operation=min}
+    \oppr@switch@notation
+    \oppr@operation@ord\oppr@inline@variable\ #2
+}
+\def\oppr@minimizeinline@constrained{\@ifnextchar[\oppr@minimizeinline@constrained@{\oppr@minimizeinline@constrained@[]}}
+\def\oppr@minimizeinline@constrained@[#1]#2#3{%
+    \pgfkeys{/optprob/user/optimizeinline/.cd, #1, operation=min}
+    \oppr@switch@notation
+    \oppr@operation@ord\oppr@inline@variable\ #2 \ \oppr@subjectto \ #3%
+}
 \ifoppr@ignorecfg
     \IfFileExists{\oppr@pkgname.cfg}{%
         \oppr@info{\oppr@pkgname.cfg is ignored}%
