@@ -12,11 +12,11 @@
 \newif\ifoppr@ignorecfg
 \RequirePackage{pgfopts}
 \pgfkeys{
-    /optprob/option/.cd,
+    /optprob/internal/option/.cd,
     ignorecfg/.code=\oppr@ignorecfgtrue,
     mathtools/.code=\PassOptionsToPackage{#1}{mathtools}
 }
-\ProcessPgfOptions{/optprob/option}
+\ProcessPgfOptions{/optprob/internal/option}
 \RequirePackage{mathtools}
 \def\oppr@error#1{\PackageError\oppr@pkgname{#1}\@ehc}
 \def\oppr@warning{\PackageWarning\oppr@pkgname}
@@ -50,7 +50,7 @@
     \fi
 }
 \pgfkeys{
-    /optprob/env/optimize/.cd,
+    /optprob/user/optimize/.cd,
     default/.style={
         abbrev=false,
         showeqnum=true,
@@ -65,7 +65,7 @@
 }
 %
 \newenvironment{optimize}[2][]{%
-    \pgfkeys{/optprob/env/optimize/.cd, default, #1, operation=#2}%
+    \pgfkeys{/optprob/user/optimize/.cd, default, #1, operation=#2}%
     \oppr@switch@notation
     \newcommand*\objfunc[2][]{%
         \expandafter\ifx\csname oppr@objfunc\endcsname\relax
